@@ -28,7 +28,6 @@ public class ReservaTest {
         Periodo periodo = new Periodo(LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2));
         Reserva reserva = new Reserva(1, periodo , ACTIVA);
 
-
         assertThatThrownBy(() -> {
             reserva.cancelarReserva();
             reserva.cancelarReserva();})
