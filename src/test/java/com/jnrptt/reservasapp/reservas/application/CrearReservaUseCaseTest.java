@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 public class CrearReservaUseCaseTest {
 
     @Test
-    void al_ejecutar_el_caso_de_uso_deberia_guardar_la_reserva() {
+    void al_guardar_el_caso_de_uso_deberia_ejecutar_la_reserva() {
         ReservaRepository reservaRepositoryMock = mock(ReservaRepository.class);
         CrearReservaUseCase crearReservaUseCase = new CrearReservaUseCase(reservaRepositoryMock);
 
@@ -41,5 +41,19 @@ public class CrearReservaUseCaseTest {
         assertThatThrownBy(() -> crearReservaUseCase.ejecutar(reserva))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Ya existe una reserva en el periodo seleccionado");
+    }
+
+    @Test
+    void no_se_puede_crear_una_reserva_si_su_periodo_ya_ha_terminado(){
+        LocalDateTime ahora = LocalDateTime.of(2026,1, 10, 15, 0);
+        Periodo periodo = new Periodo(ahora.minusDays(2), ahora.minusDays(1));
+
+        Reserva reserva = new Reserva(1, periodo, EstadoReservas.ACTIVA);
+
+        ReservaRepository reservaRepositoryMock = mock(ReservaRepository.class);
+
+        assertThatThrownBy(() -> new CrearReservaUseCase(reservaRepositoryMock).ejecutar(reserva, ahora))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("No se puede crear una reserva en un periodo que ya ha terminado");
     }
 }

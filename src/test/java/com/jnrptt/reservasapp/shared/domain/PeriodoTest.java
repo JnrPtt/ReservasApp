@@ -11,16 +11,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.*;
 public class PeriodoTest {
 
     @Test
-    void no_deberia_crearse_si_el_inicio_es_en_el_pasado() {
-        LocalDateTime fechaInicio = LocalDateTime.now().minusDays(1);
-        LocalDateTime fechaFin = LocalDateTime.now().plusDays(1);
-
-        assertThatThrownBy(() -> new Periodo(fechaInicio, fechaFin))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("La fecha de inicio no puede ser anterior a la fecha actual");
-    }
-
-    @Test
     void se_puede_crear_un_periodo_valido() {
         LocalDateTime fechaInicio = LocalDateTime.now().plusDays(1);
         LocalDateTime fechaFin = LocalDateTime.now().plusDays(2);
@@ -36,15 +26,5 @@ public class PeriodoTest {
         assertThatThrownBy(() -> new Periodo(fechaInicio, fechaFin))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("La fecha de inicio no puede ser posterior o igual a la fecha final");
-    }
-
-    @Test
-    void no_se_puede_crear_un_periodo_si_el_fin_esta_en_el_pasado() {
-        LocalDateTime fechaInicio = LocalDateTime.now().minusDays(2);
-        LocalDateTime fechaFin = LocalDateTime.now().minusDays(1);
-
-        assertThatThrownBy(() -> new Periodo(fechaInicio, fechaFin))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("La fecha final no puede ser anterior a la fecha de inicio");
     }
 }

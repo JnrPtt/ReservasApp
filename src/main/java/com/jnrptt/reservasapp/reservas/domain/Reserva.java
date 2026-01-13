@@ -2,6 +2,8 @@ package com.jnrptt.reservasapp.reservas.domain;
 
 import com.jnrptt.reservasapp.shared.domain.Periodo;
 
+import java.time.LocalDateTime;
+
 public class Reserva {
     private long id;
     private Periodo periodo;
@@ -17,10 +19,26 @@ public class Reserva {
         this.estado = estado;
     }
 
-    public void cancelarReserva() {
+    public void cancelarReserva(LocalDateTime ahora) {
+        validarCancelacion(ahora);
+        estado = EstadoReservas.CANCELADA;
+    }
+
+    private void validarCancelacion(LocalDateTime ahora) {
         if (estado == EstadoReservas.CANCELADA) {
             throw new IllegalArgumentException("La reserva ya se encuentra cancelada");
         }
-        estado = EstadoReservas.CANCELADA;
+
+        if (!ahora.isBefore(periodo.getInicio()) && ahora.isBefore(periodo.getFin())) {
+            throw new IllegalArgumentException("No se puede cancelar una reserva que ya ha empezado");
+        }
+
+        if (ahora.isAfter(periodo.getFin())) {
+            throw new IllegalArgumentException("No se puede cancelar una reserva en un periodo que ya ha terminado");
+        }
+    }
+
+    public Periodo getPeriodo() {
+        return periodo;
     }
 }
