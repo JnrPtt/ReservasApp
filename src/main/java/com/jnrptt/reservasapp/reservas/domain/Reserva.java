@@ -33,9 +33,15 @@ public class Reserva {
             throw new IllegalArgumentException("No se puede cancelar una reserva que ya ha empezado");
         }
 
+        if (estado == EstadoReservas.FINALIZADA) {
+            throw new IllegalArgumentException("No se puede cancelar una reserva que ya ha terminado");
+        }
+
         if (ahora.isAfter(periodo.getFin())) {
             throw new IllegalArgumentException("No se puede cancelar una reserva en un periodo que ya ha terminado");
         }
+
+
     }
 
     public Periodo getPeriodo() {
