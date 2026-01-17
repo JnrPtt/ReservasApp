@@ -1,22 +1,35 @@
 package com.jnrptt.reservasapp.reservas.domain;
 
 import com.jnrptt.reservasapp.shared.domain.Periodo;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "reservas")
 public class Reserva {
+
+    @Id
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private long id;
+
+    @Embedded
     private Periodo periodo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private EstadoReservas estado;
 
     public EstadoReservas getEstado() {
         return estado;
     }
 
-    public Reserva(long id, Periodo periodo, EstadoReservas estado) {
-        this.id = id;
+    public Reserva(Periodo periodo, EstadoReservas estado) {
         this.periodo = periodo;
         this.estado = estado;
+    }
+
+    public Reserva() {
     }
 
     public void cancelarReserva(LocalDateTime ahora) {

@@ -21,7 +21,7 @@ public class CrearReservaUseCaseTest {
         CrearReservaUseCase crearReservaUseCase = new CrearReservaUseCase(reservaRepositoryMock);
 
         Periodo periodo = new Periodo(LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2));
-        Reserva reserva = new Reserva(1, periodo, EstadoReservas.ACTIVA);
+        Reserva reserva = new Reserva(periodo, EstadoReservas.ACTIVA);
 
         crearReservaUseCase.ejecutar(reserva);
 
@@ -34,7 +34,7 @@ public class CrearReservaUseCaseTest {
         CrearReservaUseCase crearReservaUseCase = new CrearReservaUseCase(reservaRepositoryMock);
 
         Periodo periodo = new Periodo(LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2));
-        Reserva reserva = new Reserva(1, periodo, EstadoReservas.ACTIVA);
+        Reserva reserva = new Reserva(periodo, EstadoReservas.ACTIVA);
 
         when(reservaRepositoryMock.existeReservaSolapada(periodo)).thenReturn(true);
 
@@ -48,7 +48,7 @@ public class CrearReservaUseCaseTest {
         LocalDateTime ahora = LocalDateTime.of(2026,1, 10, 15, 0);
         Periodo periodo = new Periodo(ahora.minusDays(2), ahora.minusDays(1));
 
-        Reserva reserva = new Reserva(1, periodo, EstadoReservas.ACTIVA);
+        Reserva reserva = new Reserva(periodo, EstadoReservas.ACTIVA);
 
         ReservaRepository reservaRepositoryMock = mock(ReservaRepository.class);
 

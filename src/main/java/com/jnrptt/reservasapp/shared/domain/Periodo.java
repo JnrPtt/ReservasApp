@@ -1,7 +1,10 @@
 package com.jnrptt.reservasapp.shared.domain;
 
+import jakarta.persistence.Embeddable;
+
 import java.time.LocalDateTime;
 
+@Embeddable
 public class Periodo {
 
     private final LocalDateTime inicio;
@@ -14,6 +17,11 @@ public class Periodo {
 
         this.inicio = fechaInicio;
         this.fin = fechaFin;
+    }
+
+    public Periodo() {
+        this.inicio = LocalDateTime.now();
+        this.fin = LocalDateTime.now();
     }
 
     public LocalDateTime getFin() {

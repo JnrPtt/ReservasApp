@@ -1,9 +1,15 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres:16
+    container_name: reservas-postgres
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      POSTGRES_DB: reservas_db
+      POSTGRES_USER: reservas_user
+      POSTGRES_PASSWORD: reservas_pass
     ports:
-      - '5432'
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

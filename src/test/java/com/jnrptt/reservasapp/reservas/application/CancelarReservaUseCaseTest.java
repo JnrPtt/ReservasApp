@@ -22,7 +22,7 @@ public class CancelarReservaUseCaseTest {
 
         LocalDateTime ahora = LocalDateTime.of(2026,1, 10, 15, 0);
         Periodo periodo = new Periodo(ahora.plusDays(1), ahora.plusDays(2));
-        Reserva reserva = new Reserva(1, periodo, EstadoReservas.ACTIVA);
+        Reserva reserva = new Reserva(periodo, EstadoReservas.ACTIVA);
 
         when(reservaRepositoryMock.findById(1L)).thenReturn(reserva);
 
@@ -41,7 +41,7 @@ public class CancelarReservaUseCaseTest {
 
         LocalDateTime ahora = LocalDateTime.of(2026,1, 10, 15, 0);
         Periodo periodo = new Periodo(ahora.minusDays(2), ahora.minusDays(1));
-        Reserva reserva = new Reserva(1, periodo, EstadoReservas.CANCELADA);
+        Reserva reserva = new Reserva(periodo, EstadoReservas.CANCELADA);
 
         when(reservaRepositoryMock.findById(1L)).thenReturn(reserva);
 
@@ -57,7 +57,7 @@ public class CancelarReservaUseCaseTest {
 
         LocalDateTime ahora = LocalDateTime.of(2026,1, 10, 15, 0);
         Periodo periodo = new Periodo(ahora.minusDays(1), ahora.plusDays(2));
-        Reserva reserva = new Reserva(1, periodo, EstadoReservas.ACTIVA);
+        Reserva reserva = new Reserva(periodo, EstadoReservas.ACTIVA);
 
         when(reservaRepositoryMock.findById(1L)).thenReturn(reserva);
 
@@ -73,7 +73,7 @@ public class CancelarReservaUseCaseTest {
 
         LocalDateTime ahora = LocalDateTime.of(2026,1, 10, 15, 0);
         Periodo periodo = new Periodo(ahora.minusDays(2), ahora.minusDays(1));
-        Reserva reserva = new Reserva(1, periodo, EstadoReservas.FINALIZADA);
+        Reserva reserva = new Reserva(periodo, EstadoReservas.FINALIZADA);
 
         when(reservaRepositoryMock.findById(1L)).thenReturn(reserva);
 
@@ -89,7 +89,7 @@ public class CancelarReservaUseCaseTest {
 
         LocalDateTime ahora = LocalDateTime.of(2026,1, 10, 15, 0);
         Periodo periodo = new Periodo(ahora.plusDays(1), ahora.plusDays(2));
-        Reserva reserva = new Reserva(1, periodo, EstadoReservas.ACTIVA);
+        Reserva reserva = new Reserva(periodo, EstadoReservas.ACTIVA);
 
         when(reservaRepositoryMock.findById(1L)).thenReturn(reserva);
 
