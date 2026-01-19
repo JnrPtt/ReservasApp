@@ -14,5 +14,4 @@ public class ConsultarReservaUseCase {
         return reservaRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("No existe la reserva con el id " + id) );
     }
-
 }
