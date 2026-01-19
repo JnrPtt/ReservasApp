@@ -1,6 +1,5 @@
 package com.jnrptt.reservasapp.reservas.application;
 
-import com.jnrptt.reservasapp.reservas.domain.EstadoReservas;
 import com.jnrptt.reservasapp.reservas.domain.Reserva;
 import com.jnrptt.reservasapp.reservas.domain.ReservaRepository;
 
@@ -14,9 +13,9 @@ public class CancelarReservaUseCase {
     }
 
     public void ejecutar(long id, LocalDateTime ahora) {
-        Reserva reserva = reservaRepository.findById(id);
+        Reserva reserva = reservaRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No existe la reserva con el id " + id));
         reserva.cancelarReserva(ahora);
-        reservaRepository.guardar(reserva);
+        reservaRepository.save(reserva);
     }
 
 }

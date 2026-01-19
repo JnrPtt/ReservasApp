@@ -16,13 +16,13 @@ public class CrearReservaUseCase {
 
     public void ejecutar(Reserva reserva) {
         validarNoHaySolapamiento(reserva.getPeriodo());
-        reservaRepository.guardar(reserva);
+        reservaRepository.save(reserva);
     }
 
     public void ejecutar(Reserva reserva, LocalDateTime ahora) {
         validarSiPeriodoYaTermino(reserva, ahora);
         validarNoHaySolapamiento(reserva.getPeriodo());
-        reservaRepository.guardar(reserva);
+        reservaRepository.save(reserva);
     }
 
     private void validarNoHaySolapamiento(Periodo periodo) {

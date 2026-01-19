@@ -11,6 +11,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @SpringBootTest
 public class CancelarReservaUseCaseTest {
@@ -24,14 +25,14 @@ public class CancelarReservaUseCaseTest {
         Periodo periodo = new Periodo(ahora.plusDays(1), ahora.plusDays(2));
         Reserva reserva = new Reserva(periodo, EstadoReservas.ACTIVA);
 
-        when(reservaRepositoryMock.findById(1L)).thenReturn(reserva);
+        when(reservaRepositoryMock.findById(1L)).thenReturn(Optional.of(reserva));
 
         cancelarReserva.ejecutar(1L,ahora);
 
         assertThat(reserva.getEstado()).isEqualTo(EstadoReservas.CANCELADA);
 
          verify(reservaRepositoryMock).findById(1L);
-         verify(reservaRepositoryMock).guardar(reserva);
+         verify(reservaRepositoryMock).save(reserva);
     }
 
     @Test
@@ -43,7 +44,7 @@ public class CancelarReservaUseCaseTest {
         Periodo periodo = new Periodo(ahora.minusDays(2), ahora.minusDays(1));
         Reserva reserva = new Reserva(periodo, EstadoReservas.CANCELADA);
 
-        when(reservaRepositoryMock.findById(1L)).thenReturn(reserva);
+        when(reservaRepositoryMock.findById(1L)).thenReturn(Optional.of(reserva));
 
         assertThatThrownBy(() -> cancelarReserva.ejecutar(1L,ahora))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -59,7 +60,7 @@ public class CancelarReservaUseCaseTest {
         Periodo periodo = new Periodo(ahora.minusDays(1), ahora.plusDays(2));
         Reserva reserva = new Reserva(periodo, EstadoReservas.ACTIVA);
 
-        when(reservaRepositoryMock.findById(1L)).thenReturn(reserva);
+        when(reservaRepositoryMock.findById(1L)).thenReturn(Optional.of(reserva));
 
         assertThatThrownBy(() -> cancelarReserva.ejecutar(1L,ahora.minusDays(1)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -75,7 +76,7 @@ public class CancelarReservaUseCaseTest {
         Periodo periodo = new Periodo(ahora.minusDays(2), ahora.minusDays(1));
         Reserva reserva = new Reserva(periodo, EstadoReservas.FINALIZADA);
 
-        when(reservaRepositoryMock.findById(1L)).thenReturn(reserva);
+        when(reservaRepositoryMock.findById(1L)).thenReturn(Optional.of(reserva));
 
         assertThatThrownBy(() -> cancelarReserva.ejecutar(1L,ahora))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -91,12 +92,12 @@ public class CancelarReservaUseCaseTest {
         Periodo periodo = new Periodo(ahora.plusDays(1), ahora.plusDays(2));
         Reserva reserva = new Reserva(periodo, EstadoReservas.ACTIVA);
 
-        when(reservaRepositoryMock.findById(1L)).thenReturn(reserva);
+        when(reservaRepositoryMock.findById(1L)).thenReturn(Optional.of(reserva));
 
         cancelarReserva.ejecutar(1L, ahora);
 
         verify(reservaRepositoryMock).findById(1L);
-        verify(reservaRepositoryMock).guardar(reserva);
+        verify(reservaRepositoryMock).save(reserva);
     }
 
 }

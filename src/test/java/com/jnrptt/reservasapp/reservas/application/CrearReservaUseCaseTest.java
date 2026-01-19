@@ -25,7 +25,7 @@ public class CrearReservaUseCaseTest {
 
         crearReservaUseCase.ejecutar(reserva);
 
-        verify(reservaRepositoryMock).guardar(reserva);
+        verify(reservaRepositoryMock).save(reserva);
     }
 
     @Test
