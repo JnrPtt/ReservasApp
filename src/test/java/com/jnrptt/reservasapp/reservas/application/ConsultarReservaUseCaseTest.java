@@ -3,6 +3,7 @@ package com.jnrptt.reservasapp.reservas.application;
 import com.jnrptt.reservasapp.reservas.domain.EstadoReservas;
 import com.jnrptt.reservasapp.reservas.domain.Reserva;
 import com.jnrptt.reservasapp.reservas.domain.ReservaRepository;
+import com.jnrptt.reservasapp.reservas.domain.exception.ReservaNoEncontradaException;
 import com.jnrptt.reservasapp.shared.domain.Periodo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,7 +42,7 @@ public class ConsultarReservaUseCaseTest {
         when(reservaRepositoryMock.findById(1L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> consultarReservaUseCase.consultarPorId(1L))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(ReservaNoEncontradaException.class)
                 .hasMessage("No existe la reserva con el id 1");
     }
 
