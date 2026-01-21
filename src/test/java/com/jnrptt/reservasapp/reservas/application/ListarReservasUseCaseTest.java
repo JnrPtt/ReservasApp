@@ -3,6 +3,7 @@ package com.jnrptt.reservasapp.reservas.application;
 import com.jnrptt.reservasapp.reservas.domain.EstadoReservas;
 import com.jnrptt.reservasapp.reservas.domain.Reserva;
 import com.jnrptt.reservasapp.reservas.domain.ReservaRepository;
+import com.jnrptt.reservasapp.reservas.domain.exception.NoExistenReservasException;
 import com.jnrptt.reservasapp.shared.domain.Periodo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,7 +43,7 @@ public class ListarReservasUseCaseTest {
         when(reservaRepositoryMock.findAll()).thenReturn(List.of());
 
         assertThatThrownBy(() -> listarReservasUseCase.ejecutar())
-            .isInstanceOf(IllegalArgumentException.class)
+            .isInstanceOf(NoExistenReservasException.class)
             .hasMessage("No hay reservas registradas");
     }
 }
