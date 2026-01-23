@@ -20,14 +20,14 @@ public class CancelarReservaUseCase {
         this.clock = clock;
     }
 
-    public Reserva ejecutar(long id) {  // ← Sin LocalDateTime en la firma
-        LocalDateTime ahora = LocalDateTime.now(clock);  // ← Usa el clock
+    public Reserva ejecutar(long id) {
+        LocalDateTime ahora = LocalDateTime.now(clock);
 
         Reserva reserva = reservaRepository.findById(id)
-                .orElseThrow(() -> new ReservaNoEncontradaException(  // ← Usa tu excepción del dominio
+                .orElseThrow(() -> new ReservaNoEncontradaException(
                         "No existe la reserva con el id " + id));
 
         reserva.cancelarReserva(ahora);
-        return reservaRepository.save(reserva);  // ← Devuelve la reserva actualizada
+        return reservaRepository.save(reserva);
     }
 }
