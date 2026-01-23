@@ -3,11 +3,16 @@ package com.jnrptt.reservasapp.reservas.application;
 import com.jnrptt.reservasapp.reservas.domain.EstadoReservas;
 import com.jnrptt.reservasapp.reservas.domain.Reserva;
 import com.jnrptt.reservasapp.reservas.domain.ReservaRepository;
+import com.jnrptt.reservasapp.reservas.domain.exception.NoSePuedeCrearSiElPeriodoTerminoException;
+import com.jnrptt.reservasapp.reservas.domain.exception.SolapamientoReservaException;
 import com.jnrptt.reservasapp.shared.domain.Periodo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.mockito.Mockito.*;
@@ -39,7 +44,7 @@ public class CrearReservaUseCaseTest {
         when(reservaRepositoryMock.existeReservaSolapada(periodo)).thenReturn(true);
 
         assertThatThrownBy(() -> crearReservaUseCase.ejecutar(reserva))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(SolapamientoReservaException.class)
                 .hasMessage("Ya existe una reserva en el periodo seleccionado");
     }
 
@@ -52,8 +57,12 @@ public class CrearReservaUseCaseTest {
 
         ReservaRepository reservaRepositoryMock = mock(ReservaRepository.class);
 
-        assertThatThrownBy(() -> new CrearReservaUseCase(reservaRepositoryMock).ejecutar(reserva, ahora))
-                .isInstanceOf(IllegalArgumentException.class)
+        ZoneId zone = ZoneId.systemDefault();
+        Instant instant = ahora.atZone(zone).toInstant();
+        Clock fixedClock = Clock.fixed(instant, zone);
+
+        assertThatThrownBy(() -> new CrearReservaUseCase(reservaRepositoryMock, fixedClock).ejecutar(reserva))
+                .isInstanceOf(NoSePuedeCrearSiElPeriodoTerminoException.class)
                 .hasMessage("No se puede crear una reserva en un periodo que ya ha terminado");
     }
 }
