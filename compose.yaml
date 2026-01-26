@@ -11,5 +11,19 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  app:
+    build: .
+    container_name: reservas-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/reservas_db
+      SPRING_DATASOURCE_USERNAME: reservas_user
+      SPRING_DATASOURCE_PASSWORD: reservas_pass
+      JWT_SECRET: secretsecretsecretsecretsecret12
+      JWT_EXPIRATION: 3600000
+    depends_on:
+      - postgres
+
 volumes:
   postgres_data:
